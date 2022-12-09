@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Claims Remarks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
+
+</head>
+ 
+<body>
+
+
+  <div id="app">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h1 class="CLaim Code">{{jsonData.ClaimCode}}</h1><hr>
+        </div>
+      </div>
+      <h1> Remarks</h1>
+      <div class="row">
+        <div class="col-sm-24">
+          <div class="card">
+            <div class="card-header">      
+                <form class="form-inline" v-on:submit.prevent="formSubmitted">   
+              <table  class="table table-striped">
+                  <thead  class="thead-dark">
+                      <tr>
+                          <th scope="row">TYPE</th>
+                          <th scope="row">Remarks</th>
+                          <th scope="row">Date</th>
+                          <th scope="row">User</th> 
+                        </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="data of jsonData.RemarksList.Remarks">     
+                        <td>{{data.remark_type}}</td>
+                        <td>{{data.remarks}}</td>
+                        <td>{{data.mnt_date}}</td>
+                        <td>{{data.mnt_user}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h1> Covered Persons</h1>
+      <div class="row">
+        <div class="col-sm-24">
+          <div class="card">
+            <div class="card-header">      
+                <form class="form-inline" v-on:submit.prevent="formSubmitted">   
+              <table  class="table table-striped">
+                  <thead  class="thead-dark">
+                      <tr>
+                          <th scope="row">DESCRIPTION</th>
+                          <th scope="row">ID_NUMBER</th>
+                          <th scope="row">NAME</th>
+                          <th scope="row">BIRTHDATE</th> 
+                        </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="data of jsonData.Cpersons.Person">     
+                        <td>{{data.description}}</td>
+                        <td>{{data.id_number}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.birth_date}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      
+      <h1> Description</h1>
+      <div class="row">
+        <div class="col-sm-24">
+          <div class="card">
+            <div class="card-header">      
+                <form class="form-inline" v-on:submit.prevent="formSubmitted">   
+              <table  class="table table-striped">
+                  <thead  class="thead-dark">
+                      <tr>
+                          <th scope="row">DATE_OCCURED</th>
+                          <th scope="row">REVIEWED_LIABILITY</th>
+                          <th scope="row">LIABILITY</th>
+                          <th scope="row">ACCIDENT_CODE</th> 
+                        </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="data of jsonData.Description.Description">     
+                        <td>{{data.date_occured}}</td>
+                        <td>{{data.reviewed_liability}}</td>
+                        <td>{{data.liability}}</td>
+                        <td>{{data.accident_code}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      
+     
+      <div id="app">       
+            <h1> Images</h1>
+            <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="1400">              
+              <ol class="carousel-indicators">                
+                <div v-for="(i) in jsonData.Photos.images">
+                  <div v-if="i.sequence === 0">
+                    <li data-target="#carouselIndicators" :data-slide-to="i.sequence" class="active"></li>
+                  </div>
+                  <div v-else>
+                  <li data-target="#carouselIndicators" :data-slide-to="i.sequence"></li>
+                </div>
+                </div>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item" v-for="(i,sequence) in jsonData.Photos.images" :class="{ active: i.sequence==0 }">
+                    <img :src="i.image" alt="" class="d-block w-100">
+                    <div class="carousel-caption d-none d-md-block">
+                      <h5>Photo no: {{i.sequence}}</h5>
+                     
+                    </div>
+                </div>
+            </div>
+                  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>       
+            </div>        
+          </div>
+        </div>
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
