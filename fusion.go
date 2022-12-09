@@ -13,7 +13,6 @@ func main() {
 	// Create a new instance of Echo
 	e := echo.New()
 
-	e.File("/claim", "public/parts.html")
 	e.File("/map", "public/map.html")
 
 	e.Use(middleware.Static("./static"))
